@@ -3,6 +3,15 @@ let celsiusTemperature = null; // Variable to store temperature in Celsius
 let current = new Date(); // Current date
 let form = document.querySelector("#search-form"); // Search form element
 let celsiusLink = document.querySelector("#celsius-link"); // Celsius temperature link
+let locationIcon = document.querySelector("#location-icon"); // Location icon
+
+// Event listeners
+form.addEventListener("submit", handleSubmit); // Listen for form submission
+celsiusLink.addEventListener("click", displayCelsiusTemperature); // Listen for Celsius temperature link click
+locationIcon.addEventListener("click", getCurrentLocationWeather); // Listen for location icon click
+
+// Initial weather search for Cape Town
+search("Cape Town");
 
 // Function to format the date and time
 function formatDate(now) {
@@ -57,6 +66,14 @@ function formatDay(timestamp) {
   return days[day];
 }
 
+// Function to format hour
+function formatHour(timestamp) {
+  let date = new Date(timestamp);
+  let hour = date.getHours();
+  let minutes = date.getMinutes();
+  return `${hour}:${minutes < 10 ? "0" : ""}${minutes}`;
+}
+
 // Function to display current weather data
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
@@ -87,6 +104,14 @@ function displayTemperature(response) {
   displayWeeklyForecast(response.data.coord); // Display weekly forecast
 }
 
+// Function to display temperature in Celsius
+function displayCelsiusTemperature(event) {
+  event.preventDefault();
+  celsiusLink.classList.add("active");
+  let temperatureElement = document.querySelector("#temperature");
+  temperatureElement.innerHTML = Math.round(celsiusTemperature);
+}
+
 // Function to initiate a weather search
 function search(city) {
   let apiKey = "b46613281993492485b30d1857eea99b";
@@ -100,14 +125,6 @@ function handleSubmit(event) {
   event.preventDefault();
   let cityInputElement = document.querySelector("#city-input");
   search(cityInputElement.value);
-}
-
-// Function to display temperature in Celsius
-function displayCelsiusTemperature(event) {
-  event.preventDefault();
-  celsiusLink.classList.add("active");
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = Math.round(celsiusTemperature);
 }
 
 // Function to display daily weather forecast
@@ -163,32 +180,13 @@ function getForecast(coordinates) {
   axios.get(apiUrl).then(displayForecast);
 }
 
-// Event listeners
-form.addEventListener("submit", handleSubmit); // Listen for form submission
-celsiusLink.addEventListener("click", displayCelsiusTemperature); // Listen for Celsius temperature link click
+// Function to get and display hourly forecast
+function getHourlyForecast(coordinates) {
+  let apiKey = "b46613281993492485b30d1857eea99b";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
 
-// Initial weather search for Cape Town
-search("Cape Town");
-
-function getCurrentLocationWeather() {
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      let latitude = position.coords.latitude;
-      let longitude = position.coords.longitude;
-
-      let apiKey = "b46613281993492485b30d1857eea99b";
-      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
-
-      axios.get(apiUrl).then(displayTemperature);
-    });
-  } else {
-    alert("Geolocation is not supported by your browser.");
-  }
+  axios.get(apiUrl).then(displayHourlyForecast);
 }
-
-// Add click event listener to the location icon
-let locationIcon = document.querySelector("#location-icon");
-locationIcon.addEventListener("click", getCurrentLocationWeather);
 
 // Function to display hourly forecast
 function displayHourlyForecast(response) {
@@ -228,22 +226,19 @@ function displayHourlyForecast(response) {
   }
 }
 
-// Function to format hour
-function formatHour(timestamp) {
-  let date = new Date(timestamp);
-  let hour = date.getHours();
-  let minutes = date.getMinutes();
-  return `${hour}:${minutes < 10 ? "0" : ""}${minutes}`;
+// Function to get current location weather
+function getCurrentLocationWeather() {
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+
+      let apiKey = "b46613281993492485b30d1857eea99b";
+      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+      axios.get(apiUrl).then(displayTemperature);
+    });
+  } else {
+    alert("Geolocation is not supported by your browser.");
+  }
 }
-
-// Function to get and display hourly forecast
-function getHourlyForecast(coordinates) {
-  let apiKey = "b46613281993492485b30d1857eea99b"; // Replace with your OpenWeatherMap API key
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
-
-  axios.get(apiUrl).then(displayHourlyForecast);
-}
-
-// Call getHourlyForecast function with coordinates
-// Replace with the desired coordinates
-getHourlyForecast({ lat: 40.7128, lon: -74.006 });
