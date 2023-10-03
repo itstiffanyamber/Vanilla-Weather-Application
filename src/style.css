@@ -1,3 +1,4 @@
+/* Styles for the weather application container */
 .weather-app {
   max-width: 700px;
   margin: 0 auto;
@@ -8,28 +9,34 @@
   background: #d7bbf5;
 }
 
+/* Background styles for the body */
 body {
   background-image: url("images/clouds.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
+/* Styles for the default location information */
 .default-location {
   text-align: center;
   position: relative;
   left: -30px;
 }
 
+/* Styles for the search form */
 .search-form {
   background-color: #faf3f0;
   border: transparent;
 }
 
+/* Styles for buttons */
 .button {
   background-color: #faf3f0;
   border: transparent;
   color: #000000;
 }
+
+/* Hover effect for buttons */
 .button:hover {
   background-color: #faf3f0;
   border: transparent;
@@ -38,14 +45,17 @@ body {
   transition: all 200ms ease-in-out;
 }
 
+/* Styles for the main heading */
 h1 {
-  font-size: 55px;
+  font-size: 35px;
 }
 
+/* Styles for list items */
 li {
   opacity: 0.6;
 }
 
+/* Styles for the default temperature icon */
 .default-temperature-icon {
   font-size: 70px;
   position: relative;
@@ -53,68 +63,92 @@ li {
   bottom: -35px;
 }
 
+/* Styles for images inside the temperature icon */
 .default-temperature-icon img {
   height: 120px;
   width: 120px;
 }
 
+/* Styles for default temperature text */
 .default-temperature {
   font-size: 50px;
 }
+
+/* Styles for the current temperature unit */
 .current-temperature-unit {
   position: relative;
   top: -25px;
   font-size: 20px;
 }
+
+/* Styles for temperature unit links */
 .temperature-unit {
   text-decoration: none;
 }
 
+/* Styles for the active temperature unit */
 .default-data .active {
   color: black;
   cursor: default;
 }
+
+/* Hover effect for the active temperature unit */
 .default-data .active:hover {
   text-decoration: none;
 }
 
+/* Styles for additional weather information */
 .default-info {
   position: relative;
   right: -130px;
   top: -20px;
 }
 
+/* Reset list margins and padding */
 ul {
   margin: 0;
   padding: 0;
 }
+
+/* Remove list bullets */
 li {
   list-style: none;
 }
+
+/* Capitalize the weather status text */
 .weather-status {
   text-transform: capitalize;
 }
 
+/* Styles for the weather forecast section */
 .weather-forecast {
   margin-top: 20px;
   text-align: center;
 }
+
+/* Styles for forecast date */
 .weather-forecast-date {
   font-size: 16px;
 }
+
+/* Styles for forecasted temperature */
 .weather-forecast-temperature {
   font-size: 13px;
 }
+
+/* Styles for the minimum temperature in the forecast */
 .weather-forecast-temperature-min {
   opacity: 0.6;
 }
 
+/* Styles for the footer section */
 .footer {
   text-align: center;
   font-family: monospace;
   font-size: 13px;
 }
 
+/* Styles for the code source link */
 .code-source {
   text-decoration: none;
 }
