@@ -152,3 +152,49 @@ li {
 .code-source {
   text-decoration: none;
 }
+
+/* Styles for icon */
+#location-icon {
+  color: #faf3f0;
+  padding-left: 25px;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+/* Hover effect for icon */
+#location-icon:hover {
+  color: #000000;
+  transform: scale(1.1);
+}
+
+/* Media Query for Responsive Styles */
+@media screen and (max-width: 768px) {
+  /* Adjust styles for smaller screens here */
+  .weather-app {
+    max-width: 90%;
+    padding: 20px;
+  }
+  h1 {
+    font-size: 28px;
+  }
+  .default-temperature-icon {
+    font-size: 50px;
+    bottom: -20px;
+  }
+  .default-temperature {
+    font-size: 35px;
+  }
+  .current-temperature-unit {
+    font-size: 16px;
+  }
+  .default-info {
+    right: -20px;
+    top: -10px;
+  }
+  .weather-forecast-date {
+    font-size: 14px;
+  }
+  .weather-forecast-temperature {
+    font-size: 12px;
+  }
+}

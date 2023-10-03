@@ -169,3 +169,81 @@ celsiusLink.addEventListener("click", displayCelsiusTemperature); // Listen for 
 
 // Initial weather search for Cape Town
 search("Cape Town");
+
+function getCurrentLocationWeather() {
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let latitude = position.coords.latitude;
+      let longitude = position.coords.longitude;
+
+      let apiKey = "b46613281993492485b30d1857eea99b";
+      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+      axios.get(apiUrl).then(displayTemperature);
+    });
+  } else {
+    alert("Geolocation is not supported by your browser.");
+  }
+}
+
+// Add click event listener to the location icon
+let locationIcon = document.querySelector("#location-icon");
+locationIcon.addEventListener("click", getCurrentLocationWeather);
+
+// Function to display hourly forecast
+function displayHourlyForecast(response) {
+  let hourlyForecast = response.data.hourly;
+  let hourlyForecastContainer = document.querySelector("#hourly-forecast");
+
+  // Clear previous forecast data
+  hourlyForecastContainer.innerHTML = "";
+
+  // Iterate through the hourly forecast data and display it
+  for (let i = 0; i < 4 * 24; i += 8) {
+    let forecastHour = hourlyForecast[i];
+    let forecastTimestamp = forecastHour.dt * 1000;
+    let forecastIcon = forecastHour.weather[0].icon;
+
+    let day = formatDay(forecastTimestamp);
+    let hour = formatHour(forecastTimestamp);
+
+    // Create a card for each day's forecast
+    let forecastCard = document.createElement("div");
+    forecastCard.classList.add("col");
+    forecastCard.innerHTML = `
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">${day}</h5>
+          <p class="card-text">${hour}</p>
+          <img
+            src="https://openweathermap.org/img/wn/${forecastIcon}.png"
+            alt=""
+            width="50"
+          />
+        </div>
+      </div>
+    `;
+
+    hourlyForecastContainer.appendChild(forecastCard);
+  }
+}
+
+// Function to format hour
+function formatHour(timestamp) {
+  let date = new Date(timestamp);
+  let hour = date.getHours();
+  let minutes = date.getMinutes();
+  return `${hour}:${minutes < 10 ? "0" : ""}${minutes}`;
+}
+
+// Function to get and display hourly forecast
+function getHourlyForecast(coordinates) {
+  let apiKey = "b46613281993492485b30d1857eea99b"; // Replace with your OpenWeatherMap API key
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+
+  axios.get(apiUrl).then(displayHourlyForecast);
+}
+
+// Call getHourlyForecast function with coordinates
+// Replace with the desired coordinates
+getHourlyForecast({ lat: 40.7128, lon: -74.006 });
