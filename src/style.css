@@ -47,7 +47,8 @@ body {
 
 /* Styles for the main heading */
 h1 {
-  font-size: 35px;
+  font-size: 45px;
+  padding-left: 5%;
 }
 
 /* Styles for list items */
@@ -149,8 +150,9 @@ li {
 }
 
 /* Styles for the code source link */
-.code-source {
+.github-link {
   text-decoration: none;
+  color: #b0578d;
 }
 
 /* Styles for icon */
